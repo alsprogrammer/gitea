@@ -95,8 +95,10 @@ func ReplaceSanitizer() {
 	for _, rule := range setting.ExternalSanitizerRules {
 		if rule.Regexp != nil {
 			sanitizer.policy.AllowAttrs(rule.AllowAttr).Matching(rule.Regexp).OnElements(rule.Element)
-		} else {
+		} else if rule.AllowAttr != nil {
 			sanitizer.policy.AllowAttrs(rule.AllowAttr).OnElements(rule.Element)
+		} else {
+			sanitizer.policy.AllowElements(rule.Element)
 		}
 	}
 }
